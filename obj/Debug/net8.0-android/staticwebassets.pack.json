@@ -1,27 +1,27 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\obj\\Debug\\net8.0-android\\scopedcss\\bundle\\ExpenseTracker.styles.css",
+      "Id": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker\\obj\\Debug\\net8.0-android\\scopedcss\\bundle\\ExpenseTracker.styles.css",
       "PackagePath": "staticwebassets\\ExpenseTracker.styles.css"
     },
     {
-      "Id": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\wwwroot\\css\\app.css",
+      "Id": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker\\wwwroot\\css\\app.css",
       "PackagePath": "staticwebassets\\css\\app.css"
     },
     {
-      "Id": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "Id": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
       "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css"
     },
     {
-      "Id": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "Id": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
       "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css.map"
     },
     {
-      "Id": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\wwwroot\\favicon.png",
+      "Id": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker\\wwwroot\\favicon.png",
       "PackagePath": "staticwebassets\\favicon.png"
     },
     {
-      "Id": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\wwwroot\\index.html",
+      "Id": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker\\wwwroot\\index.html",
       "PackagePath": "staticwebassets\\index.html"
     },
     {

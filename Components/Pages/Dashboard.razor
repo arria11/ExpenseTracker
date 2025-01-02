@@ -1,0 +1,13 @@
+﻿@page "/home"
+@using ExpenseTracker.Model
+@using ExpenseTracker.Services
+@inject AuthenticationStateService authStateService
+
+
+@if (authStateService.IsAuthenticated())
+{
+    <div>
+        <h4>Welcome, @authStateService.GetAuthenticatedUser().Name! with the currency type @authStateService.GetAuthenticatedUser().Currency</h4>
+    </div>
+}
+

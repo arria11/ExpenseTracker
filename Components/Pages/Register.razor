@@ -1,0 +1,138 @@
+@page "/register"
+@using ExpenseTracker.Model
+@using ExpenseTracker.Services
+@inject IUserService userService
+@inject NavigationManager navigationManager
+
+
+<h3>Add User</h3>
+
+
+<div>
+    <form>
+
+        <div>
+            <label>User Name:</label>
+            <input type="text" @bind="newUser.UserName" />
+        </div>
+        <div>
+            <label>Password:</label>
+            <input type="password" @bind="newUser.Password" />
+        </div>
+        <div>
+            <label>Email:</label>
+            <input type="email" @bind="newUser.Email" />
+        </div>
+        <div>
+            <label>Name:</label>
+            <input type="text" @bind="newUser.Name" />
+        </div>
+        <div>
+            <label>Currency:</label>
+            <select @bind="newUser.Currency">
+                <option value="" disabled>Select a Currency</option>
+                @foreach (var currency in availableCurrencies)
+                {
+                    <option value="@currency">@currency</option>
+                }
+            </select>
+        </div>
+        <button type="button" @onclick="AddNewUser">Add User</button>
+        <p>
+            Have an account?
+            <a href="/">Sign in</a>
+        </p>
+    </form>
+</div>
+
+@if (errorMessage != null)
+{
+    <p class="error-message">@errorMessage</p>
+}
+
+@* <h3>Retrieve User Information</h3>
+
+<div>
+    <label>Enter User ID to Retrieve Info:</label>
+    <input @bind="searchUserId" />
+    <button type="button" @onclick="GetUserInfo">Get User Info</button>
+</div> *@
+
+@if (retrievedUser != null)
+{
+    <h4>User Details:</h4>
+    <p><strong>Name:</strong> @retrievedUser.Name</p>
+
+}
+
+@code {
+    private User newUser = new User(); //obj created for User Class
+    private string errorMessage;
+
+    // New field for searching user
+    private string searchUserName;
+
+    // Field to hold retrieved user information
+    private User retrievedUser;
+
+    private List<string> availableCurrencies = new List<string>
+    {
+        "USD - US Dollar",
+        "EUR - Euro",
+        "GBP - British Pound",
+        "JPY - Japanese Yen",
+        "AUD - Australian Dollar",
+        "CAD - Canadian Dollar",
+        "INR - Indian Rupee",
+        "CNY - Chinese Yuan"
+    };
+
+    private async Task AddNewUser()
+    {
+        try
+        {
+            var existingUsers = await userService.LoadUserAsync();
+            // condition chek
+            if (existingUsers.Any(user => user.UserName == newUser.UserName))
+            {
+                errorMessage = "A user with this User Name already exists. Please use a different User Name.";
+                return; // Exit the method if User ID already exists
+            }
+
+
+            await userService.SaveUserAsync(newUser);
+            // Reset the new user object after saving.
+            newUser = new User();
+            errorMessage = null; // Clear any previous error messages
+            navigationManager.NavigateTo("/");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"An error occurred while adding the user: {ex.Message}";
+            Console.WriteLine(errorMessage); // Log for debugging
+        }
+    }
+
+    private async Task GetUserInfo()
+    {
+        try
+        {
+            var users = await userService.LoadUserAsync();
+            retrievedUser = users.FirstOrDefault(u => u.UserName == searchUserName);
+
+            if (retrievedUser == null)
+            {
+                errorMessage = "No user found with this username.";
+            }
+            else
+            {
+                errorMessage = null; // Clear any previous error messages
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"An error occurred while retrieving the user: {ex.Message}";
+            Console.WriteLine(errorMessage); // Log for debugging
+        }
+    }
+}

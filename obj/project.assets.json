@@ -45183,11 +45183,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker.csproj",
+      "projectUniqueName": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker\\ExpenseTracker.csproj",
       "projectName": "ExpenseTracker",
-      "projectPath": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker.csproj",
+      "projectPath": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker\\ExpenseTracker.csproj",
       "packagesPath": "C:\\Users\\aryas\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\obj\\",
+      "outputPath": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker\\obj\\",
       "projectStyle": "PackageReference",
       "crossTargeting": true,
       "fallbackFolders": [
