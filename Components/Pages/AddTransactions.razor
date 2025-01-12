@@ -1,0 +1,287 @@
+﻿@page "/add-transaction"
+@using ExpenseTracker.Model
+@using ExpenseTracker.Services
+@inject ITransactionService transactionService
+@inject AuthenticationStateService authStateService
+
+<style>
+    /* Center the entire page content */
+    .container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* The form styling */
+    .form-wrapper {
+        width: 400px; /* Adjust width as per your preference */
+        padding: 20px;
+        border: 1px solid #0F4B62;
+        border-radius: 8px;
+        background-color: #F4FCFF;
+ 
+    }
+
+    /* Title and heading styling */
+    h3 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    /* Form group styling */
+    .form-group {
+        display: flex;
+        
+        margin-bottom: 15px;
+    }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            width: 80px;
+            
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .form-group textarea {
+            height: 100px;
+        }
+
+            .form-group input[type="text"]:focus,
+            .form-group input[type="number"]:focus,
+            .form-group input[type="date"]:focus,
+            .form-group select:focus,
+            .form-group textarea:focus {
+                outline: none;
+                border-color: #0F4B62; 
+            }
+
+    /* Error and success messages */
+    .error-message,
+    .success-message {
+        margin-top: 10px;
+        padding: 10px;
+        border-radius: 3px;
+        font-size: 14px;
+    }
+
+    .error-message {
+        background-color: #ffcccc;
+        border: 1px solid #f44336;
+        color: #f44336;
+    }
+
+    .success-message {
+        background-color: #ccffcc;
+        border: 1px solid #4CAF50;
+        color: #4CAF50;
+    }
+
+    /* Button styling */
+    .form-wrapper button {
+        background-color: #30718A;
+        color: white;
+        margin-block-end:0;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 30%;
+        font-size: 16px;
+        align-self: flex-end;
+    }
+
+        .form-wrapper button:hover {
+            background-color: #255C71;
+        }
+</style>
+
+<div class="container">
+    <div class="form-wrapper">
+        
+
+        <form>
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" id="title" @bind="newItem.Title" placeholder="Enter title" />
+            </div>
+
+            <div class="form-group">
+                <label for="amount">Amount</label>
+                <input type="text" id="amount" @bind="newItem.Amount" placeholder="@authStateService.GetAuthenticatedUser().Currency" oninput="validateAmount(event)" />
+            </div>
+
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="date" id="date" @bind="newItem.Date" />
+            </div>
+
+            <div class="form-group">
+                <label for="tag">Tag</label>
+                <select id="tag" @bind="newItem.Tag">
+                    <option>Yearly</option>
+                    <option>Monthly</option>
+                    <option>Food</option>
+                    <option>Drinks</option>
+                    <option>Clothes</option>
+                    <option>Gadgets</option>
+                    <option>Miscellaneous</option>
+                    <option>Fuel</option>
+                    <option>Rent</option>
+                    <option>EMI</option>
+                    <option>Party</option>
+                    <option>Salary</option>
+                    <option>Shopping</option>
+                    <option>Other</option>
+                </select>
+
+                @if (newItem.Tag == "Other")
+                {
+                    <div class="form-group">
+                        <input type="text" id="customTag" @bind="newItem.CustomTag" placeholder="Custom tag" />
+                    </div>
+                }
+            </div>
+
+            <div class="form-group">
+                <label for="note">Note</label>
+                <textarea id="note" rows="3" @bind="newItem.Note" placeholder="Enter note (optional)"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="type">Type</label>
+                <select id="type" @bind="newItem.Type">
+                    <option>Inflow</option>
+                    <option>Outflow</option>
+                    <option>Debt</option>
+                </select>
+            </div>
+
+            @if (newItem.Type == "Debt")
+            {
+                <div class="form-group">
+                    <label for="dueDate">Due Date</label>
+                    <input type="date" id="dueDate" @bind="newItem.DueDate" />
+                </div>
+
+                <div class="form-group">
+                    <label for="source">Source</label>
+                    <input type="text" id="source" @bind="newItem.Source" placeholder="Enter source of debt" />
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="error-message">
+                    @errorMessage
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(successMessage))
+            {
+                <div class="success-message">
+                    @successMessage
+                </div>
+            }
+
+            <button type="button" @onclick="AddNewTask">Add</button>
+        </form>
+    </div>
+</div>
+
+@code {
+    private TransactionItem newItem = new TransactionItem { Date = DateTime.Today };
+    private string errorMessage;
+    private string successMessage;
+    private decimal totalBalance = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (authStateService.IsAuthenticated())
+        {
+            var transactions = await transactionService.LoadTransactionAsync();
+
+            
+            var totalOutflow = transactions.Where(t => t.Type == "Outflow").Sum(t => t.Amount);
+            var totalDebt = transactions.Where(t => t.Type == "Debt").Sum(t => t.Amount);
+            var clearedDebt = transactions.Where(t => t.Type == "Debt" && t.IsCleared).Sum(t => t.Amount);
+            var totalInflow = transactions.Where(t => t.Type == "Inflow").Sum(t => t.Amount)-clearedDebt;
+            var pendingDebt = totalDebt - clearedDebt;
+            totalBalance = totalInflow + totalDebt - totalOutflow;
+        }
+    }
+
+    private async Task AddNewTask()
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(newItem.Title) || newItem.Amount <= 0 || string.IsNullOrWhiteSpace(newItem.Type))
+            {
+                errorMessage = "Title, valid amount, and Transaction Type are required.";
+                successMessage = null;
+                return;
+            }
+            if (newItem.Type == "Outflow" && newItem.Amount > totalBalance)
+            {
+                errorMessage = "The Outflow amount cannot exceed the total balance.";
+                successMessage = null;
+                return;
+            }
+
+            if (newItem.Tag == "Other" && string.IsNullOrWhiteSpace(newItem.CustomTag))
+            {
+                errorMessage = "Please provide a custom tag.";
+                successMessage = null;
+                return;
+            }
+
+            if (newItem.Type == "Debt" && (!newItem.DueDate.HasValue || string.IsNullOrWhiteSpace(newItem.Source)))
+            {
+                errorMessage = "Please provide both Due Date and Source for Debt.";
+                successMessage = null;
+                return;
+            }
+
+            newItem.TaskId = Guid.NewGuid();
+
+            await transactionService.SaveTransactionAsync(newItem);
+
+            newItem = new TransactionItem { Date = DateTime.Today };
+            successMessage = "Transaction added successfully!";
+            errorMessage = null;
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"An error occurred: {ex.Message}";
+        }
+    }
+
+    private void OnTagChange(ChangeEventArgs e)
+    {
+        if (e.Value?.ToString() != "Other")
+        {
+            newItem.CustomTag = null;
+        }
+    }
+
+    private void validateAmount(ChangeEventArgs e)
+    {
+        string value = e.Value.ToString();
+        if (!System.Text.RegularExpressions.Regex.IsMatch(value, @"^[0-9]*$"))
+        {
+            // If the input contains invalid characters, clear the value
+            e.Value = value.Substring(0, value.Length - 1);
+        }
+    }
+}

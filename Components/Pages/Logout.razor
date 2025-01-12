@@ -1,0 +1,27 @@
+﻿@page "/logout"
+@using ExpenseTracker.Model
+@using ExpenseTracker.Services
+@inject IUserService userService
+@inject NavigationManager navigationManager
+@inject AuthenticationStateService authStateService
+
+<div>
+    <p>Do you want to log out?</p>
+    <button type="button" @onclick="LogoutUser">Logout</button>
+</div>
+
+@code {
+    private async Task LogoutUser()
+    {
+        try
+        {
+            await authStateService.Logout();
+
+            navigationManager.NavigateTo("/");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error during logout: {ex.Message}");
+        }
+    }
+}

@@ -1,13 +1,33 @@
-﻿@page "/home"
+﻿@page "/dashboard"
 @using ExpenseTracker.Model
 @using ExpenseTracker.Services
 @inject AuthenticationStateService authStateService
-
+@inject ITransactionService transactionService
 
 @if (authStateService.IsAuthenticated())
 {
     <div>
-        <h4>Welcome, @authStateService.GetAuthenticatedUser().Name! with the currency type @authStateService.GetAuthenticatedUser().Currency</h4>
+        <h4>Welcome, @authStateService.GetAuthenticatedUser().Name! Your Total Balance is @authStateService.GetAuthenticatedUser().Currency @totalBalance</h4>
     </div>
+
+}
+@code {
+    private decimal totalBalance = 0;
+    private decimal totalInflow = 0;
+    protected override async Task OnInitializedAsync()
+    {
+        if (authStateService.IsAuthenticated())
+        {
+            var transactions = await transactionService.LoadTransactionAsync();
+
+            var inflowAmount = transactions.Where(t => t.Type == "Inflow").Sum(t => t.Amount);
+            var totalOutflow = transactions.Where(t => t.Type == "Outflow").Sum(t => t.Amount);
+            var totalDebt = transactions.Where(t => t.Type == "Debt").Sum(t => t.Amount);
+            var clearedDebt = transactions.Where(t => t.Type == "Debt" && t.IsCleared).Sum(t => t.Amount);
+            var pendingDebt = totalDebt - clearedDebt;
+            totalInflow = inflowAmount - clearedDebt;
+            totalBalance = totalInflow + totalDebt - totalOutflow ;
+        }
+    }
 }
 

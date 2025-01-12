@@ -4,13 +4,100 @@
 @inject IUserService userService
 @inject NavigationManager navigationManager
 
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+    }
 
-<h3>Add User</h3>
+    .title {
+        width: 100%;
+        color: #30718A;
+        text-align: center;
+        margin: 0;
+        padding: 10px;
+    }
 
+    .register-container {
+        width: 90%;
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        font-family: Arial, sans-serif;
+    }
 
-<div>
+    h3 {
+        color: #30718A;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    label {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
+    button {
+        background-color: #30718A;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        width: 100%;
+    }
+
+        button:hover {
+            background-color: #255C71;
+        }
+
+    .signin-link {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+        .signin-link a {
+            color: #30718A;
+            text-decoration: none;
+        }
+
+            .signin-link a:hover {
+                text-decoration: underline;
+            }
+
+    .error-message {
+        color: red;
+        text-align: center;
+        margin-top: 10px;
+    }
+</style>
+
+<h3 class="title">Expense Tracker App</h3>
+
+<div class="register-container">
     <form>
-
         <div>
             <label>User Name:</label>
             <input type="text" @bind="newUser.UserName" />
@@ -38,53 +125,30 @@
             </select>
         </div>
         <button type="button" @onclick="AddNewUser">Add User</button>
-        <p>
-            Have an account?
-            <a href="/">Sign in</a>
-        </p>
+        <div class="signin-link">
+            Have an account? <a href="/">Sign In</a>
+        </div>
     </form>
+
+    @if (errorMessage != null)
+    {
+        <p class="error-message">@errorMessage</p>
+    }
 </div>
-
-@if (errorMessage != null)
-{
-    <p class="error-message">@errorMessage</p>
-}
-
-@* <h3>Retrieve User Information</h3>
-
-<div>
-    <label>Enter User ID to Retrieve Info:</label>
-    <input @bind="searchUserId" />
-    <button type="button" @onclick="GetUserInfo">Get User Info</button>
-</div> *@
-
-@if (retrievedUser != null)
-{
-    <h4>User Details:</h4>
-    <p><strong>Name:</strong> @retrievedUser.Name</p>
-
-}
 
 @code {
     private User newUser = new User(); //obj created for User Class
     private string errorMessage;
 
-    // New field for searching user
-    private string searchUserName;
-
-    // Field to hold retrieved user information
-    private User retrievedUser;
-
     private List<string> availableCurrencies = new List<string>
     {
-        "USD - US Dollar",
-        "EUR - Euro",
-        "GBP - British Pound",
-        "JPY - Japanese Yen",
-        "AUD - Australian Dollar",
-        "CAD - Canadian Dollar",
-        "INR - Indian Rupee",
-        "CNY - Chinese Yuan"
+        "USD",
+        "NPR",
+        "EUR",
+        "AUD",
+        "CAD",
+        "INR",
+        "CNY"
     };
 
     private async Task AddNewUser()
@@ -92,13 +156,12 @@
         try
         {
             var existingUsers = await userService.LoadUserAsync();
-            // condition chek
+            // condition check
             if (existingUsers.Any(user => user.UserName == newUser.UserName))
             {
                 errorMessage = "A user with this User Name already exists. Please use a different User Name.";
                 return; // Exit the method if User ID already exists
             }
-
 
             await userService.SaveUserAsync(newUser);
             // Reset the new user object after saving.
@@ -109,29 +172,6 @@
         catch (Exception ex)
         {
             errorMessage = $"An error occurred while adding the user: {ex.Message}";
-            Console.WriteLine(errorMessage); // Log for debugging
-        }
-    }
-
-    private async Task GetUserInfo()
-    {
-        try
-        {
-            var users = await userService.LoadUserAsync();
-            retrievedUser = users.FirstOrDefault(u => u.UserName == searchUserName);
-
-            if (retrievedUser == null)
-            {
-                errorMessage = "No user found with this username.";
-            }
-            else
-            {
-                errorMessage = null; // Clear any previous error messages
-            }
-        }
-        catch (Exception ex)
-        {
-            errorMessage = $"An error occurred while retrieving the user: {ex.Message}";
             Console.WriteLine(errorMessage); // Log for debugging
         }
     }

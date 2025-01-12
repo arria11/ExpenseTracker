@@ -30,9 +30,11 @@ namespace ExpenseTracker.Services
             return false;
         }
 
-        public void Logout()
+        public Task Logout()
         {
             authenticatedUser = null;
+
+            return Task.CompletedTask;
         }
     }
 }

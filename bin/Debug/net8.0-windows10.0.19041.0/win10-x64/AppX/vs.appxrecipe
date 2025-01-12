@@ -30,7 +30,7 @@
     <AppXManifest Include="C:\Users\aryas\Desktop\Year3\App Dev\ExpenseTracker\ExpenseTracker\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2025-01-02T09:29:04.782</Modified>
+      <Modified>2025-01-12T02:47:49.974</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
@@ -40,15 +40,15 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\aryas\Desktop\Year3\App Dev\ExpenseTracker\ExpenseTracker\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\ExpenseTracker.runtimeconfig.json">
       <PackagePath>ExpenseTracker.runtimeconfig.json</PackagePath>
-      <Modified>2025-01-02T08:36:10.189</Modified>
+      <Modified>2025-01-04T11:02:56.010</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\aryas\Desktop\Year3\App Dev\ExpenseTracker\ExpenseTracker\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\ExpenseTracker.dll">
       <PackagePath>ExpenseTracker.dll</PackagePath>
-      <Modified>2025-01-02T09:29:03.831</Modified>
+      <Modified>2025-01-12T02:47:47.771</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\aryas\Desktop\Year3\App Dev\ExpenseTracker\ExpenseTracker\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\apphost.exe">
       <PackagePath>ExpenseTracker.exe</PackagePath>
-      <Modified>2025-01-02T09:29:03.894</Modified>
+      <Modified>2025-01-12T02:47:47.993</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\aryas\Desktop\Year3\App Dev\ExpenseTracker\ExpenseTracker\Resources\Raw\AboutAssets.txt">
       <PackagePath>AboutAssets.txt</PackagePath>
@@ -304,7 +304,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\aryas\Desktop\Year3\App Dev\ExpenseTracker\ExpenseTracker\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\ExpenseTracker.deps.json">
       <PackagePath>ExpenseTracker.deps.json</PackagePath>
-      <Modified>2025-01-02T09:10:35.661</Modified>
+      <Modified>2025-01-04T11:02:55.878</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\microsoft.windows.sdk.net.ref\10.0.19041.34\lib\net6.0\Microsoft.Windows.SDK.NET.dll">
       <PackagePath>Microsoft.Windows.SDK.NET.dll</PackagePath>
@@ -672,11 +672,11 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\aryas\Desktop\Year3\App Dev\ExpenseTracker\ExpenseTracker\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\scopedcss\bundle\ExpenseTracker.styles.css">
       <PackagePath>wwwroot\ExpenseTracker.styles.css</PackagePath>
-      <Modified>2025-01-02T08:35:24.284</Modified>
+      <Modified>2025-01-04T10:38:00.749</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\aryas\Desktop\Year3\App Dev\ExpenseTracker\ExpenseTracker\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\scopedcss\projectbundle\ExpenseTracker.bundle.scp.css">
       <PackagePath>wwwroot\ExpenseTracker.bundle.scp.css</PackagePath>
-      <Modified>2025-01-02T08:35:24.285</Modified>
+      <Modified>2025-01-04T10:38:00.750</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\aryas\Desktop\Year3\App Dev\ExpenseTracker\ExpenseTracker\Components\Layout\MainLayout.razor.css">
       <PackagePath>Components\Layout\MainLayout.razor.css</PackagePath>
@@ -684,7 +684,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\aryas\Desktop\Year3\App Dev\ExpenseTracker\ExpenseTracker\Components\Layout\NavMenu.razor.css">
       <PackagePath>Components\Layout\NavMenu.razor.css</PackagePath>
-      <Modified>2025-01-02T08:35:23.045</Modified>
+      <Modified>2025-01-04T10:38:00.245</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>
