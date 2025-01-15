@@ -2,6 +2,7 @@
 @using ExpenseTracker.Model
 @using ExpenseTracker.Services
 @inject ITransactionService transactionService
+@inject TagService tagService
 @inject AuthenticationStateService authStateService
 
 <style>
@@ -130,20 +131,10 @@
             <div class="form-group">
                 <label for="tag">Tag</label>
                 <select id="tag" @bind="newItem.Tag">
-                    <option>Yearly</option>
-                    <option>Monthly</option>
-                    <option>Food</option>
-                    <option>Drinks</option>
-                    <option>Clothes</option>
-                    <option>Gadgets</option>
-                    <option>Miscellaneous</option>
-                    <option>Fuel</option>
-                    <option>Rent</option>
-                    <option>EMI</option>
-                    <option>Party</option>
-                    <option>Salary</option>
-                    <option>Shopping</option>
-                    <option>Other</option>
+                    @foreach (var tag in tags)
+                    {
+                        <option value="@tag">@tag</option>
+                    }
                 </select>
 
                 @if (newItem.Tag == "Other")
@@ -205,6 +196,12 @@
     private string errorMessage;
     private string successMessage;
     private decimal totalBalance = 0;
+    private List<string> tags = new();
+
+    protected override void OnInitialized()
+    {
+        tags = tagService.GetTags();
+    }
 
     protected override async Task OnInitializedAsync()
     {

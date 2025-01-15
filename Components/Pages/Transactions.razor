@@ -3,6 +3,7 @@
 @using ExpenseTracker.Services
 @inject ITransactionService transactionService
 @inject AuthenticationStateService authStateService
+@inject TagService tagService
 
 <style>
     .container {
@@ -130,9 +131,7 @@
     .action-icons img {
         width: 20px;
         height: 20px;
-    }
-
-    
+    } 
 </style>
 
 
@@ -146,116 +145,120 @@
 
 
 <container>
-<div class="type-filter-bar">
-    <input type="text" placeholder="Search transactions..." @oninput="SearchTransactions" />
-    <button @onclick="() => FilterType(0)">Inflow</button>
-    <button @onclick="() => FilterType(1)">Outflow</button>
-    <button @onclick="() => FilterType(2)">Debt</button>
-    
-</div>
+    <div class="type-filter-bar">
+        <input type="text" placeholder="Search transactions..." @oninput="SearchTransactions" />
+        <button @onclick="() => FilterType(0)">Inflow</button>
+        <button @onclick="() => FilterType(1)">Outflow</button>
+        <button @onclick="() => FilterType(2)">Debt</button>
+    </div>
 
+    <div class="filter-bar">
+        <label for="dateSort">Start Date</label> <input type="date" @bind="fromDate" placeholder="Start Date" />
+         <label for="dateSort">End Date</label><input type="date" @bind="toDate" placeholder="End Date" />
+         <button @onclick="ApplyFilters">Apply Filter</button>
+        <button @onclick="ClearFilters">Clear Filters</button>
+    </div>
 
+    <div class="tag-filter-bar">
+        <label for="tagFilter">Filter by Tag:</label>
+            <select id="tagFilter" @onchange="FilterByTag">
+                <option value="">All Tags</option>
+                 @foreach (var tag in tags)
+                    {
+                        <option value="@tag">@tag</option>
+                    }
+            </select>
+    </div>
 
+    <div class="sort-bar">
+        <label for="dateSort">Sort by Date:</label>
+        <select id="dateSort"  @onchange="SortTransactions">
+            <option value="latest">Latest</option>
+            <option value="oldest">Oldest</option>
+        </select>
+    </div>
 
-<div class="filter-bar">
-    <label for="dateSort">Start Date</label> <input type="date" @bind="fromDate" placeholder="Start Date" />
-     <label for="dateSort">End Date</label><input type="date" @bind="toDate" placeholder="End Date" />
-     <button @onclick="ApplyFilters">Apply Filter</button>
-    <button @onclick="ClearFilters">Clear Filters</button>
-</div>
-
-<div class="sort-bar">
-    <label for="dateSort">Sort by Date:</label>
-    <select id="dateSort"  @onchange="SortTransactions">
-        <option value="latest">Latest</option>
-        <option value="oldest">Oldest</option>
-    </select>
-</div>
-
-<table>
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Amount</th>
-            <th>Date</th>
-            <th>Tag</th>
-            <th>Note</th>
-            @if (currentFilter == 2) // Add extra columns for Debt
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Tag</th>
+                <th>Note</th>
+                @if (currentFilter == 2) 
+                {
+                    <th>Source</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @if (filteredTransaction != null && filteredTransaction.Any())
             {
-                <th>Source</th>
-                <th>Due Date</th>
-                <th>Status</th>
+                @foreach (var transaction in filteredTransaction)
+                {
+                    <tr>
+                        <td>@transaction.Title</td>
+                        @if (authStateService.IsAuthenticated())
+                        {
+                            <td>@authStateService.GetAuthenticatedUser().Currency @transaction.Amount</td>
+                        }
+                        <td>@transaction.Date.ToString("MMMM d, yyyy")</td>
+                        <td>@(transaction.Tag == "Other" ? transaction.CustomTag : transaction.Tag)</td>
+
+                    
+                        <td>@(string.IsNullOrEmpty(transaction.Note) ? "No Note Available" : transaction.Note)</td>
+                        @if (currentFilter == 2) 
+                        {
+                            <td>@transaction.Source</td>
+                            <td>@(transaction.DueDate?.ToString("MMMM d, yyyy") ?? "No Due Date")</td>
+                            <td>
+                                @if (transaction.IsCleared)
+                                {
+                                    <span>Cleared</span>
+                                }
+                                else
+                                {
+                                    <button @onclick="() => MarkAsCleared(transaction)" disabled="@transaction.IsCleared">Clear</button>
+                                }
+                            </td>
+                        }                      
+                    </tr>
+                }
             }
-           
-        </tr>
-    </thead>
-    <tbody>
-        @if (filteredTransaction != null && filteredTransaction.Any())
-        {
-            @foreach (var transaction in filteredTransaction)
+            else
             {
                 <tr>
-                    <td>@transaction.Title</td>
-                    @if (authStateService.IsAuthenticated())
-                    {
-                        <td>@authStateService.GetAuthenticatedUser().Currency @transaction.Amount</td>
-                    }
-                    <td>@transaction.Date.ToString("MMMM d, yyyy")</td>
-                    <td>@(transaction.Tag == "Other" ? transaction.CustomTag : transaction.Tag)</td>
-                    
-                    <td>@(string.IsNullOrEmpty(transaction.Note) ? "No Note Available" : transaction.Note)</td>
-                    @if (currentFilter == 2) 
-                    {
-                        <td>@transaction.Source</td>
-                        <td>@(transaction.DueDate?.ToString("MMMM d, yyyy") ?? "No Due Date")</td>
-                        <td>
-                            @if (transaction.IsCleared)
-                            {
-                                <span>Cleared</span>
-                            }
-                            else
-                            {
-                                <button @onclick="() => MarkAsCleared(transaction)" disabled="@transaction.IsCleared">Clear</button>
-                            }
-                        </td>
-                    }
-                   
-                       
+                    <td colspan="@((currentFilter == 2) ? 8 : 6)">No transactions available.</td>
                 </tr>
             }
-        }
-        else
-        {
-            <tr>
-                <td colspan="@((currentFilter == 2) ? 8 : 6)">No transactions available.</td>
-            </tr>
-        }
-        @if (currentFilter == 0)
-        {
-            <div>
-                <br/>
-                <h5>Total Inflow: @totalInflow</h5>
-            </div>
-        }
-        else if (currentFilter == 1)
-        {
-            <div>
-                <br />
-                <h5>Total Outflow: @totalOutflow</h5>
-            </div>
-        }
-        else if (currentFilter == 2)
-        {
-            <div>
-                <br />
-                <h5>Total Debt: @totalDebt</h5
-                <h5>Pending Debt: @pendingDebt</h5>
-                <h5>Cleared Debt:@clearedDebt</h5>
-            </div>
-        }
-
-    </tbody>
-</table>
+            @if (currentFilter == 0)
+            {
+                <div>
+                    <br/>
+                    <h5>Total Inflow: @totalInflow</h5>
+                </div>
+            }
+            else if (currentFilter == 1)
+            {
+                <div>
+                    <br />
+                    <h5>Total Outflow: @totalOutflow</h5>
+                </div>
+            }
+            else if (currentFilter == 2)
+            {
+                <div>
+                    <br />
+                    <h5>Total Debt: @totalDebt</h5
+                    <h5>Pending Debt: @pendingDebt</h5>
+                    <h5>Cleared Debt:@clearedDebt</h5>
+                </div>
+            }
+        </tbody>
+    </table>
 </container>
 
 @code {
@@ -270,12 +273,20 @@
     private decimal totalDebt = 0;
     private decimal pendingDebt;
     private decimal clearedDebt;
-
     private string searchText = string.Empty;
+    private string selectedTag = string.Empty;
     private DateTime? fromDate;
     private DateTime? toDate;
     private bool isSearching = false;
+    private List<string> tags = new();
+    private string? errorMessage;
 
+
+    protected override void OnInitialized()
+    {
+        tags = tagService.GetTags();
+    }
+    
 
     private void ClearFilters()
     {
@@ -285,17 +296,17 @@
         ApplyFilters();
     }
 
-   private void CalculateTotals()
-{
-    inflowAmount = transaction.Where(t => t.Type == "Inflow").Sum(t => t.Amount); 
-    totalOutflow = transaction.Where(t => t.Type == "Outflow").Sum(t => t.Amount); 
-    totalDebt = transaction.Where(t => t.Type == "Debt").Sum(t => t.Amount); 
-    clearedDebt = transaction.Where(t => t.Type == "Debt" && t.IsCleared).Sum(t => t.Amount); // Cleared debts
-    pendingDebt = totalDebt - clearedDebt; // Pending debts
+    private void CalculateTotals()
+    {
+        inflowAmount = filteredTransaction.Where(t => t.Type == "Inflow").Sum(t => t.Amount); 
+        totalOutflow = filteredTransaction.Where(t => t.Type == "Outflow").Sum(t => t.Amount); 
+        totalDebt = filteredTransaction.Where(t => t.Type == "Debt").Sum(t => t.Amount); 
+        clearedDebt = filteredTransaction.Where(t => t.Type == "Debt" && t.IsCleared).Sum(t => t.Amount); // Cleared debts
+        pendingDebt = totalDebt - clearedDebt; // Pending debts
 
-    // total inflow by subtracting cleared debt
-    totalInflow = inflowAmount - clearedDebt;
-}
+        // total inflow by subtracting cleared debt
+        totalInflow = inflowAmount - clearedDebt;
+    }
 
     private async Task LoadTransaction()
     {
@@ -322,6 +333,12 @@
         ApplyFilters();
     }
 
+    private void FilterByTag(ChangeEventArgs e)
+    {
+        selectedTag = e.Value?.ToString() ?? string.Empty;
+        ApplyFilters();
+    }
+
     private void FilterType(int type)
     {
         currentFilter = type;
@@ -342,8 +359,9 @@
                 (currentFilter == 2 && t.Type == "Debt"))
              .Where(t => string.IsNullOrEmpty(searchText) ||
                     t.Title.ToLower().Contains(searchText)) 
-        .Where(t => (!fromDate.HasValue || t.Date >= fromDate.Value) && (!toDate.HasValue || t.Date <= toDate.Value))
-        .ToList();
+            .Where(t => string.IsNullOrEmpty(selectedTag) || t.Tag == selectedTag || (t.Tag == "Other" && t.CustomTag == selectedTag))
+            .Where(t => (!fromDate.HasValue || t.Date >= fromDate.Value) && (!toDate.HasValue || t.Date <= toDate.Value))
+            .ToList();
         CalculateTotals();
 
         if (selectedSortOption == "latest")
@@ -355,20 +373,25 @@
             filteredTransaction = filteredTransaction.OrderBy(t => t.Date).ToList();
         }
     }
+
     private async Task MarkAsCleared(TransactionItem transaction)
-{
-    // Mark the transaction as cleared
-    transaction.IsCleared = true;
+    {
+      if (totalInflow >= pendingDebt)
+        {
+            // Mark the transaction as cleared
+            transaction.IsCleared = true;
 
-    // Update the transaction in the JSON file using the service
-    await transactionService.UpdateTransactionAsync(transaction);
-    
+            // Update the transaction in the JSON file using the service
+            await transactionService.UpdateTransactionAsync(transaction);
 
-    // Refresh the filtered transactions to reflect the updated status
-    ApplyFilters();
-}
+            // Refresh the filtered transactions to reflect the updated status
+            ApplyFilters();
+        
+        } else
+        {
+            // Show error message if there's not enough inflow to clear the debt
+            errorMessage = "Please load enough money first to clear the pending debt.";
+        }
 
-
- 
-   
+    }  
 }
