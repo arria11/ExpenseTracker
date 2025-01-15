@@ -4,6 +4,7 @@
 @inject ITransactionService transactionService
 @inject AuthenticationStateService authStateService
 @inject TagService tagService
+@inject CalculateTransactionService calculateTransactionService
 
 <style>
     .container {
@@ -234,11 +235,19 @@
                     <td colspan="@((currentFilter == 2) ? 8 : 6)">No transactions available.</td>
                 </tr>
             }
+
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger">
+                    @errorMessage
+                </div>
+            }
+
             @if (currentFilter == 0)
             {
                 <div>
                     <br/>
-                    <h5>Total Inflow: @totalInflow</h5>
+                    <h5>Inflow Amount: @totalInflow</h5>
                 </div>
             }
             else if (currentFilter == 1)
@@ -268,11 +277,12 @@
     private int currentFilter = 0;
     private string selectedSortOption = "latest";
     private decimal inflowAmount = 0;
-    private decimal totalInflow = 0;
+    private decimal totalInflow;
     private decimal totalOutflow = 0;
     private decimal totalDebt = 0;
     private decimal pendingDebt;
     private decimal clearedDebt;
+    private CalculateTransaction transactionTotals;
     private string searchText = string.Empty;
     private string selectedTag = string.Empty;
     private DateTime? fromDate;
@@ -286,7 +296,7 @@
     {
         tags = tagService.GetTags();
     }
-    
+
 
     private void ClearFilters()
     {
@@ -296,24 +306,21 @@
         ApplyFilters();
     }
 
-    private void CalculateTotals()
+    /*private void CalculateTotals()
     {
         inflowAmount = filteredTransaction.Where(t => t.Type == "Inflow").Sum(t => t.Amount); 
         totalOutflow = filteredTransaction.Where(t => t.Type == "Outflow").Sum(t => t.Amount); 
         totalDebt = filteredTransaction.Where(t => t.Type == "Debt").Sum(t => t.Amount); 
-        clearedDebt = filteredTransaction.Where(t => t.Type == "Debt" && t.IsCleared).Sum(t => t.Amount); // Cleared debts
-        pendingDebt = totalDebt - clearedDebt; // Pending debts
-
-        // total inflow by subtracting cleared debt
+        clearedDebt = filteredTransaction.Where(t => t.Type == "Debt" && t.IsCleared).Sum(t => t.Amount); 
+        pendingDebt = totalDebt - clearedDebt; 
         totalInflow = inflowAmount - clearedDebt;
-    }
+    }*/
 
     private async Task LoadTransaction()
     {
         transaction = await transactionService.LoadTransactionAsync();
         ApplyFilters();
     }
-    
 
     protected override async Task OnInitializedAsync()
     {
@@ -326,7 +333,7 @@
         alertMessage = null;
     }
 
-     private void SearchTransactions(ChangeEventArgs e)
+    private void SearchTransactions(ChangeEventArgs e)
     {
         searchText = e.Value?.ToString()?.ToLower() ?? string.Empty;
         isSearching = true;
@@ -344,6 +351,7 @@
         currentFilter = type;
         ApplyFilters();
     }
+
     private void SortTransactions(ChangeEventArgs e)
     {
         selectedSortOption = e.Value?.ToString() ?? "latest"; 
@@ -362,36 +370,61 @@
             .Where(t => string.IsNullOrEmpty(selectedTag) || t.Tag == selectedTag || (t.Tag == "Other" && t.CustomTag == selectedTag))
             .Where(t => (!fromDate.HasValue || t.Date >= fromDate.Value) && (!toDate.HasValue || t.Date <= toDate.Value))
             .ToList();
-        CalculateTotals();
+            // Calculating the totals after filtering
+            var result = calculateTransactionService.CalculateTransactionTotals(filteredTransaction);
 
-        if (selectedSortOption == "latest")
-        {
-            filteredTransaction = filteredTransaction.OrderByDescending(t => t.Date).ToList();
-        }
-        else if (selectedSortOption == "oldest")
-        {
-            filteredTransaction = filteredTransaction.OrderBy(t => t.Date).ToList();
-        }
+            totalInflow = result.InflowAmount;
+            totalOutflow = result.TotalOutflow;
+            totalDebt = result.TotalDebt;
+            pendingDebt = result.PendingDebt;
+            clearedDebt = result.ClearedDebt;
+
+            if (selectedSortOption == "latest")
+            {
+                filteredTransaction = filteredTransaction.OrderByDescending(t => t.Date).ToList();
+            }
+            else if (selectedSortOption == "oldest")
+            {
+                filteredTransaction = filteredTransaction.OrderBy(t => t.Date).ToList();
+            }
+        
     }
 
-    private async Task MarkAsCleared(TransactionItem transaction)
+   private async Task MarkAsCleared(TransactionItem transaction)
+{
+    // Reload all transactions
+    var transactions = await transactionService.LoadTransactionAsync();
+
+    // Calculate totals using the service
+    var result = calculateTransactionService.CalculateTransactionTotals(transactions);
+
+    totalInflow = result.InflowAmount;
+    totalOutflow = result.TotalOutflow;
+    totalDebt = result.TotalDebt;
+    pendingDebt = result.PendingDebt;
+    clearedDebt = result.ClearedDebt;
+
+    // Ensure that the total inflow minus cleared debt is greater than or equal to the transaction amount
+    var availableInflow = totalInflow - clearedDebt;
+
+    if (transaction.Amount <= availableInflow)
     {
-      if (totalInflow >= pendingDebt)
-        {
-            // Mark the transaction as cleared
-            transaction.IsCleared = true;
+        // Mark the transaction as cleared
+        transaction.IsCleared = true;
 
-            // Update the transaction in the JSON file using the service
-            await transactionService.UpdateTransactionAsync(transaction);
+        // Update the transaction in the data source
+        await transactionService.UpdateTransactionAsync(transaction);
 
-            // Refresh the filtered transactions to reflect the updated status
-            ApplyFilters();
-        
-        } else
-        {
-            // Show error message if there's not enough inflow to clear the debt
-            errorMessage = "Please load enough money first to clear the pending debt.";
-        }
+        // Refresh the filtered transactions to reflect the updated status
+        ApplyFilters();
 
-    }  
+        // Clear any previous error message
+        errorMessage = null;
+    }
+    else
+    {
+        // Set an error message if the transaction amount exceeds the available inflow
+        errorMessage = "Cannot clear this debt as the amount exceeds the available inflow.";
+    }
+}
 }
