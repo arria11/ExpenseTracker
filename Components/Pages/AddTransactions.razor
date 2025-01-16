@@ -4,109 +4,11 @@
 @inject ITransactionService transactionService
 @inject TagService tagService
 @inject AuthenticationStateService authStateService
+@inject CalculateTransactionService calculateTransactionService
 
-<style>
-    /* Center the entire page content */
-    .container {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    /* The form styling */
-    .form-wrapper {
-        width: 400px; /* Adjust width as per your preference */
-        padding: 20px;
-        border: 1px solid #0F4B62;
-        border-radius: 8px;
-        background-color: #F4FCFF;
- 
-    }
-
-    /* Title and heading styling */
-    h3 {
-        text-align: center;
-        margin-bottom: 20px;
-    }
-
-    /* Form group styling */
-    .form-group {
-        display: flex;
-        
-        margin-bottom: 15px;
-    }
-
-        .form-group label {
-            font-weight: bold;
-            margin-bottom: 5px;
-            width: 80px;
-            
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 80%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            font-size: 16px;
-        }
-
-        .form-group textarea {
-            height: 100px;
-        }
-
-            .form-group input[type="text"]:focus,
-            .form-group input[type="number"]:focus,
-            .form-group input[type="date"]:focus,
-            .form-group select:focus,
-            .form-group textarea:focus {
-                outline: none;
-                border-color: #0F4B62; 
-            }
-
-    /* Error and success messages */
-    .error-message,
-    .success-message {
-        margin-top: 10px;
-        padding: 10px;
-        border-radius: 3px;
-        font-size: 14px;
-    }
-
-    .error-message {
-        background-color: #ffcccc;
-        border: 1px solid #f44336;
-        color: #f44336;
-    }
-
-    .success-message {
-        background-color: #ccffcc;
-        border: 1px solid #4CAF50;
-        color: #4CAF50;
-    }
-
-    /* Button styling */
-    .form-wrapper button {
-        background-color: #30718A;
-        color: white;
-        margin-block-end:0;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        width: 30%;
-        font-size: 16px;
-        align-self: flex-end;
-    }
-
-        .form-wrapper button:hover {
-            background-color: #255C71;
-        }
-</style>
+<head>
+    <link href="css/addTransactions.css" rel="stylesheet" />
+</head>
 
 <div class="container">
     <div class="form-wrapper">
@@ -120,7 +22,7 @@
 
             <div class="form-group">
                 <label for="amount">Amount</label>
-                <input type="text" id="amount" @bind="newItem.Amount" placeholder="@authStateService.GetAuthenticatedUser().Currency" oninput="validateAmount(event)" />
+                <input type="text" id="amount" @bind="newItem.Amount" placeholder="@authStateService.GetAuthenticatedUser().Currency" oninput="validateAmount" />
             </div>
 
             <div class="form-group">
@@ -197,7 +99,9 @@
     private string successMessage;
     private decimal totalBalance = 0;
     private List<string> tags = new();
+    private List<TransactionItem> allTransactions = new();
 
+    //Load predefined tags on initialization.
     protected override void OnInitialized()
     {
         tags = tagService.GetTags();
@@ -205,17 +109,21 @@
 
     protected override async Task OnInitializedAsync()
     {
-        if (authStateService.IsAuthenticated())
+        try
         {
-            var transactions = await transactionService.LoadTransactionAsync();
-
-            
-            var totalOutflow = transactions.Where(t => t.Type == "Outflow").Sum(t => t.Amount);
-            var totalDebt = transactions.Where(t => t.Type == "Debt").Sum(t => t.Amount);
-            var clearedDebt = transactions.Where(t => t.Type == "Debt" && t.IsCleared).Sum(t => t.Amount);
-            var totalInflow = transactions.Where(t => t.Type == "Inflow").Sum(t => t.Amount)-clearedDebt;
-            var pendingDebt = totalDebt - clearedDebt;
-            totalBalance = totalInflow + totalDebt - totalOutflow;
+            if (authStateService.IsAuthenticated())
+            {
+                // Load user transactions
+                var transactions = await transactionService.LoadTransactionAsync();
+                allTransactions = transactions ?? new List<TransactionItem>(); // Ensure it's never null
+                //calculate net balance
+                var result = calculateTransactionService.CalculateTransactionTotals(transactions);
+                totalBalance = result.NetBalance;
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Failed to load transactions: {ex.Message}";
         }
     }
 
@@ -223,12 +131,20 @@
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(newItem.Title) || newItem.Amount <= 0 || string.IsNullOrWhiteSpace(newItem.Type))
+            if (string.IsNullOrWhiteSpace(newItem.Title) || string.IsNullOrWhiteSpace(newItem.Type))
             {
                 errorMessage = "Title, valid amount, and Transaction Type are required.";
                 successMessage = null;
                 return;
             }
+
+            if (newItem.Amount <= 0)
+            {
+                errorMessage = "Please enter a valid amount greater than 0.";
+                successMessage = null;
+                return;
+            }
+
             if (newItem.Type == "Outflow" && newItem.Amount > totalBalance)
             {
                 errorMessage = "The Outflow amount cannot exceed the total balance.";
@@ -250,8 +166,9 @@
                 return;
             }
 
-            newItem.TaskId = Guid.NewGuid();
+            newItem.TransactionId = Guid.NewGuid();
 
+            // Save the transaction and reset the form on successful adding
             await transactionService.SaveTransactionAsync(newItem);
 
             newItem = new TransactionItem { Date = DateTime.Today };
@@ -266,19 +183,10 @@
 
     private void OnTagChange(ChangeEventArgs e)
     {
+        //Custom tag is null if a tag from the predefined list is selected.
         if (e.Value?.ToString() != "Other")
         {
             newItem.CustomTag = null;
-        }
-    }
-
-    private void validateAmount(ChangeEventArgs e)
-    {
-        string value = e.Value.ToString();
-        if (!System.Text.RegularExpressions.Regex.IsMatch(value, @"^[0-9]*$"))
-        {
-            // If the input contains invalid characters, clear the value
-            e.Value = value.Substring(0, value.Length - 1);
         }
     }
 }

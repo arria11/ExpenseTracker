@@ -10,12 +10,15 @@ namespace ExpenseTracker.Services
 {
     public class TransactionService : ITransactionService
     {
+        // Path to the file where transactions are stored
         private readonly string filePath = Path.Combine(AppContext.BaseDirectory, "Transaction.json");
 
+        // Load transactions from JSON file 
         public async Task<List<TransactionItem>> LoadTransactionAsync()
         {
             try
             {
+                // Check if the file exists
                 if (!File.Exists(filePath))
                 {
                     return new List<TransactionItem>();
@@ -37,12 +40,15 @@ namespace ExpenseTracker.Services
             }
         }
 
+        // Saves a new transaction by adding it to the existing list
         public async Task SaveTransactionAsync(TransactionItem transactionItem)
         {
             try
             {
                 var transactions = await LoadTransactionAsync();
+                // Add the new transaction to the list
                 transactions.Add(transactionItem);
+                // Save the updated transaction list
                 await SaveTransactionAsync(transactions);
             }
             catch (Exception ex)
@@ -56,14 +62,14 @@ namespace ExpenseTracker.Services
             try
             {
                 var transactions = await LoadTransactionAsync();
-                var existingTransaction = transactions.FirstOrDefault(t => t.TaskId == transactionItem.TaskId);
-
+                var existingTransaction = transactions.FirstOrDefault(t => t.TransactionId == transactionItem.TransactionId);
+                
                 if (existingTransaction != null)
                 {
                     existingTransaction.IsCleared = transactionItem.IsCleared;
                     existingTransaction.Title = transactionItem.Title;
                     existingTransaction.Amount = transactionItem.Amount;
-                    existingTransaction.Tag = transactionItem.Tag;
+                    existingTransaction.Tag = transactionItem.Tag;  
                     existingTransaction.CustomTag = transactionItem.CustomTag;
                     existingTransaction.Date = transactionItem.Date;
                     existingTransaction.Note = transactionItem.Note;
@@ -81,9 +87,7 @@ namespace ExpenseTracker.Services
             }
         }
 
-
-
-
+        //Saving the transaction list to the JSON file.
         private async Task SaveTransactionAsync(List<TransactionItem> transactions)
         {
             try
@@ -99,6 +103,28 @@ namespace ExpenseTracker.Services
             }
         }
 
+        // Deletes a transaction from the file using the transactionID.
+        public async Task DeleteTransactionAsync(Guid transactionId)
+        {
+            try
+            {
+                var transactions = await LoadTransactionAsync();
+
+                //the transaction id is retrieved
+                var transactionToDelete = transactions.FirstOrDefault(t => t.TransactionId == transactionId);
+
+                if (transactionToDelete != null)
+                {
+                    transactions.Remove(transactionToDelete); //Removing the transaction.
+                    await SaveTransactionAsync(transactions); //Saving the list removing the deleted transaction.
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+        }
 
 
     }
