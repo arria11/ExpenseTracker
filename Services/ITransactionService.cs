@@ -11,7 +11,8 @@ namespace ExpenseTracker.Services
     {
         Task SaveTransactionAsync(TransactionItem transactionItem);
         Task UpdateTransactionAsync(TransactionItem transactionItem);
-        
+
+        Task DeleteTransactionAsync(Guid TransactionId);
         Task<List<TransactionItem>> LoadTransactionAsync();
     }
 }
