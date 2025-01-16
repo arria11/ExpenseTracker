@@ -137,7 +137,7 @@
 </div>
 
 @code {
-    private User newUser = new User(); //obj created for User Class
+    private User newUser = new User(); //object created for User Class
     private string errorMessage;
 
     private List<string> availableCurrencies = new List<string>
@@ -156,23 +156,23 @@
         try
         {
             var existingUsers = await userService.LoadUserAsync();
-            // condition check
+            // condition check to see if the user already exists
             if (existingUsers.Any(user => user.UserName == newUser.UserName))
             {
                 errorMessage = "A user with this User Name already exists. Please use a different User Name.";
-                return; // Exit the method if User ID already exists
+                return; 
             }
 
             await userService.SaveUserAsync(newUser);
-            // Reset the new user object after saving.
+            // New user object after saving.
             newUser = new User();
-            errorMessage = null; // Clear any previous error messages
+            errorMessage = null; 
             navigationManager.NavigateTo("/");
         }
         catch (Exception ex)
         {
             errorMessage = $"An error occurred while adding the user: {ex.Message}";
-            Console.WriteLine(errorMessage); // Log for debugging
+            Console.WriteLine(errorMessage); // for debugging purpose
         }
     }
 }

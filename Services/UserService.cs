@@ -6,13 +6,16 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using ExpenseTracker.Model;
+using static MudBlazor.CategoryTypes;
 
 namespace ExpenseTracker.Services
 {
     public class UserService: IUserService
     {
+        // Path to the JSON file that stores user details.
         private readonly string usersFilePath = Path.Combine(AppContext.BaseDirectory, "UserDetails.json");
 
+        //Save a new user to the system and add them to the list.
         public async Task SaveUserAsync(User user)
         {
             try
@@ -28,10 +31,11 @@ namespace ExpenseTracker.Services
             catch (Exception ex)
             {
                 Console.WriteLine($"Error saving user: {ex.Message}");
-                throw; 
+                throw;
             }
         }
 
+        //Load the list of users from the JSON file
         public async Task<List<User>> LoadUserAsync()
         {
             try
@@ -66,7 +70,7 @@ namespace ExpenseTracker.Services
             try
             {
                 var json = JsonSerializer.Serialize(users, new JsonSerializerOptions { WriteIndented = true });
-
+                //Saves the updated list of users to the JSON file.
                 await File.WriteAllTextAsync(usersFilePath, json);
             }
             catch (IOException ioEx)
@@ -81,7 +85,7 @@ namespace ExpenseTracker.Services
             }
         }
 
-        // Method to hash the password using SHA-256
+        // Method to hash the password using SHA256
         private string HashPassword(string password)
         {
             using (var sha256 = SHA256.Create())
