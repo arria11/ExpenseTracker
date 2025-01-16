@@ -3,31 +3,244 @@
 @using ExpenseTracker.Services
 @inject AuthenticationStateService authStateService
 @inject ITransactionService transactionService
+@inject CalculateTransactionService calculateTransactionService
 
+<head>
+    <link href="css/dashboard.css" rel="stylesheet" />
+</head>
+
+<div class="container">
 @if (authStateService.IsAuthenticated())
 {
-    <div>
-        <h4>Welcome, @authStateService.GetAuthenticatedUser().Name! Your Total Balance is @authStateService.GetAuthenticatedUser().Currency @totalBalance</h4>
+    <div class="filter-bar">
+        <label for="fromDate">Start Date:</label>
+        <input type="date" id="fromDate" @bind="fromDate" @bind:event="oninput" />
+        <label for="toDate">End Date:</label>
+        <input type="date" id="toDate" @bind="toDate" @bind:event="oninput" />
+        <button @onclick="ApplyDateFilter">Apply Filter</button>
+        <button @onclick="ClearFilters">Clear Filters</button>
+    </div>
+    <div class="total-transaction-section">
+        <div class="transaction-group">
+            <h5 class="box-style">@authStateService.GetAuthenticatedUser().Currency @totalInflow</h5>
+            <h5>Inflows</h5>
+        </div>
+        <div class="transaction-group">
+            <h5 class="box-style">@authStateService.GetAuthenticatedUser().Currency @totalOutflow</h5>
+            <h5>Outflows</h5>
+        </div>
+        <div class="transaction-group">
+            <h5 class="box-style">@authStateService.GetAuthenticatedUser().Currency @totalDebt</h5>
+            <h5>Debts</h5>
+        </div>
+            <div class="transaction-group">
+                <h5 class="box-style">@authStateService.GetAuthenticatedUser().Currency @totalBalance</h5>
+                <h5>Net Balance</h5>
+            </div>
+    </div>
+    <div class="debts-total-section">
+        <div class="debts-section">
+            <div class="transaction-group">
+                    <h5 style="color: red;">Pending Debts</h5>
+                <h5 class="box-style">@authStateService.GetAuthenticatedUser().Currency @pendingDebt</h5>
+            </div>
+            <div class="transaction-group">
+                <h5>Cleared Debts</h5>
+                <h5 class="box-style">@authStateService.GetAuthenticatedUser().Currency @clearedDebt</h5>
+            </div>
+        </div>
+        <div class="total-transaction-number">
+            <h5>Total Transactions</h5>
+            <h5 class="number-box-style">@totalTransactions</h5>
+        </div>
+    </div>
+
+    <div class="pending-debts">
+        <h5 >Pending Debts</h5>
+        @if (pendingDebtList != null && pendingDebtList.Any())
+        {
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Amount</th>
+                        <th>Due Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var debt in pendingDebtList)
+                    {
+                        <tr>
+                            <td>@debt.Title</td>
+                            <td>@authStateService.GetAuthenticatedUser().Currency @debt.Amount</td>
+                            <td>@debt.DueDate?.ToString("MMMM d, yyyy")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p class="no-data">No pending debts found.</p>
+        }
+    </div>
+
+    <div class="top-transactions">
+            <h5>Top 5 Transactions</h5>
+        <div class="type-filter-bar">
+            <div class="transaction-group">
+            <select id="transactionType" @onchange="FilterByTransactionType">
+                <option value="0">Inflow</option>
+                <option value="1">Outflow</option>
+                <option value="2">Debt</option>
+            </select>     
+            </div>
+            <div class="transaction-group">
+            <button @onclick="ShowHighestTransactions">High</button>
+            <button @onclick="ShowLowestTransactions">Low</button>
+            </div>
+        </div>
+
+        @if (sortedTransactions != null && sortedTransactions.Any())
+        {
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var transaction in sortedTransactions)
+                    {
+                        <tr>
+                            <td>@transaction.Title</td>
+                            <td>@authStateService.GetAuthenticatedUser().Currency @transaction.Amount</td>
+                            <td>@transaction.Date.ToString("MMMM d, yyyy")</td>
+                           
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p class="no-data">No transactions found for the selected filter.</p>
+        }
     </div>
 
 }
+else
+{
+    <p>You need to log in to view the dashboard.</p>
+}
+</div>
 @code {
     private decimal totalBalance = 0;
     private decimal totalInflow = 0;
+    private decimal totalOutflow = 0;
+    private decimal totalDebt = 0;
+    private decimal pendingDebt = 0;
+    private decimal clearedDebt = 0;
+    private int totalTransactions = 0;
+    private List<TransactionItem> pendingDebtList = new List<TransactionItem>();
+    private List<TransactionItem> allTransactions = new List<TransactionItem>();
+
+    private List<TransactionItem> highestInflows = new List<TransactionItem>();
+    private List<TransactionItem> highestOutflows = new List<TransactionItem>();
+    private List<TransactionItem> highestDebts = new List<TransactionItem>();
+
+    private DateTime? fromDate;
+    private DateTime? toDate;
+    private int selectedTransactionType = 0; 
+    private string selectedSortOption = "latest"; 
+    private List<TransactionItem> sortedTransactions = new List<TransactionItem>();
+
     protected override async Task OnInitializedAsync()
     {
         if (authStateService.IsAuthenticated())
         {
+            // Load transactions from the service
             var transactions = await transactionService.LoadTransactionAsync();
+            allTransactions = transactions ?? new List<TransactionItem>(); 
+            selectedSortOption = "High";
 
-            var inflowAmount = transactions.Where(t => t.Type == "Inflow").Sum(t => t.Amount);
-            var totalOutflow = transactions.Where(t => t.Type == "Outflow").Sum(t => t.Amount);
-            var totalDebt = transactions.Where(t => t.Type == "Debt").Sum(t => t.Amount);
-            var clearedDebt = transactions.Where(t => t.Type == "Debt" && t.IsCleared).Sum(t => t.Amount);
-            var pendingDebt = totalDebt - clearedDebt;
-            totalInflow = inflowAmount - clearedDebt;
-            totalBalance = totalInflow + totalDebt - totalOutflow ;
+            // Perform calculations for the initial state
+            ProcessTransactions(allTransactions); 
         }
     }
+
+    private void ApplyDateFilter()
+    {
+        // Filter transactions based on the date range
+        var filteredTransactions = allTransactions.Where(t =>
+            (!fromDate.HasValue || t.Date >= fromDate) &&
+            (!toDate.HasValue || t.Date <= toDate)).ToList();
+
+        ProcessTransactions(filteredTransactions);
+    }
+
+    private void ProcessTransactions(List<TransactionItem> transactions)
+    {
+        // Calculate totals using the service
+        var result = calculateTransactionService.CalculateTransactionTotals(transactions);
+
+        totalInflow = result.TotalInflow;
+        totalOutflow = result.TotalOutflow;
+        totalDebt = result.TotalDebt;
+        pendingDebt = result.PendingDebt;
+        clearedDebt = result.ClearedDebt;
+        totalBalance = result.NetBalance;
+
+        totalTransactions = transactions.Count;
+
+        // Get pending debts
+        pendingDebtList = transactions.Where(t => t.Type == "Debt" && !t.IsCleared).ToList();
+
+        var filteredTransactions = allTransactions
+           .Where(t =>
+               (selectedTransactionType == 0 && t.Type == "Inflow") ||
+               (selectedTransactionType == 1 && t.Type == "Outflow") ||
+               (selectedTransactionType == 2 && t.Type == "Debt"))
+           .Where(t => (!fromDate.HasValue || t.Date >= fromDate.Value) && (!toDate.HasValue || t.Date <= toDate.Value))
+           .ToList();
+
+
+        if (selectedSortOption == "High")
+        {
+            sortedTransactions = filteredTransactions.OrderByDescending(t => t.Amount).Take(5).ToList();
+        }
+        else if (selectedSortOption == "Low")
+        {
+            sortedTransactions = filteredTransactions.OrderBy(t => t.Amount).Take(5).ToList();
+        }
+    }
+
+    private void ClearFilters()
+    {
+        fromDate = null;
+        toDate = null;
+        ApplyDateFilter();
+    }
+
+    private void FilterByTransactionType(ChangeEventArgs e)
+    {
+        selectedTransactionType = int.Parse(e.Value.ToString());
+        ApplyDateFilter(); // Apply the filters with the updated type
+    }
+
+    private void ShowHighestTransactions()
+    {
+        selectedSortOption = "High";
+        ApplyDateFilter(); // Apply the filters with the updated sort option.
+    }
+
+    private void ShowLowestTransactions()
+    {
+        selectedSortOption = "Low";
+        ApplyDateFilter(); // Apply the filters with the updated sort option.
+    }
 }
+
 
