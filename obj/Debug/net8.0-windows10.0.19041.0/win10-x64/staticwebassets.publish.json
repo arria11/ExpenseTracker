@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "+ce2vX+vCmX33HwPz5ET7VufzboKzS4FDVBQGp4f6d4=",
+  "Hash": "T35nl7ZDwS6Gvp/qmkbYEIUqjk3oOUzlZMD1sBob7fE=",
   "Source": "ExpenseTracker",
   "BasePath": "/",
   "Mode": "Root",
@@ -16,6 +16,44 @@
     }
   ],
   "Assets": [
+    {
+      "Identity": "C:\\Users\\aryas\\.nuget\\packages\\mudblazor\\7.15.0\\staticwebassets\\MudBlazor.min.css",
+      "SourceId": "MudBlazor",
+      "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\aryas\\.nuget\\packages\\mudblazor\\7.15.0\\staticwebassets\\",
+      "BasePath": "_content/MudBlazor",
+      "RelativePath": "MudBlazor.min.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Users\\aryas\\.nuget\\packages\\mudblazor\\7.15.0\\staticwebassets\\MudBlazor.min.css"
+    },
+    {
+      "Identity": "C:\\Users\\aryas\\.nuget\\packages\\mudblazor\\7.15.0\\staticwebassets\\MudBlazor.min.js",
+      "SourceId": "MudBlazor",
+      "SourceType": "Package",
+      "ContentRoot": "C:\\Users\\aryas\\.nuget\\packages\\mudblazor\\7.15.0\\staticwebassets\\",
+      "BasePath": "_content/MudBlazor",
+      "RelativePath": "MudBlazor.min.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Users\\aryas\\.nuget\\packages\\mudblazor\\7.15.0\\staticwebassets\\MudBlazor.min.js"
+    },
     {
       "Identity": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker\\obj\\Debug\\net8.0-windows10.0.19041.0\\win10-x64\\scopedcss\\bundle\\ExpenseTracker.styles.css",
       "SourceId": "ExpenseTracker",
@@ -55,6 +93,25 @@
       "OriginalItemSpec": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker\\obj\\Debug\\net8.0-windows10.0.19041.0\\win10-x64\\scopedcss\\projectbundle\\ExpenseTracker.bundle.scp.css"
     },
     {
+      "Identity": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker\\wwwroot\\css\\addTransactions.css",
+      "SourceId": "ExpenseTracker",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker\\wwwroot\\",
+      "BasePath": "/",
+      "RelativePath": "css/addTransactions.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\addTransactions.css"
+    },
+    {
       "Identity": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker\\wwwroot\\css\\app.css",
       "SourceId": "ExpenseTracker",
       "SourceType": "Discovered",
@@ -74,12 +131,12 @@
       "OriginalItemSpec": "wwwroot\\css\\app.css"
     },
     {
-      "Identity": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "Identity": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker\\wwwroot\\css\\dashboard.css",
       "SourceId": "ExpenseTracker",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker\\wwwroot\\",
       "BasePath": "/",
-      "RelativePath": "css/bootstrap/bootstrap.min.css",
+      "RelativePath": "css/dashboard.css",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -90,15 +147,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\bootstrap\\bootstrap.min.css"
+      "OriginalItemSpec": "wwwroot\\css\\dashboard.css"
     },
     {
-      "Identity": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "Identity": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker\\wwwroot\\css\\login.css",
       "SourceId": "ExpenseTracker",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker\\wwwroot\\",
       "BasePath": "/",
-      "RelativePath": "css/bootstrap/bootstrap.min.css.map",
+      "RelativePath": "css/login.css",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -109,7 +166,26 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\bootstrap\\bootstrap.min.css.map"
+      "OriginalItemSpec": "wwwroot\\css\\login.css"
+    },
+    {
+      "Identity": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker\\wwwroot\\css\\transactions.css",
+      "SourceId": "ExpenseTracker",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker\\wwwroot\\",
+      "BasePath": "/",
+      "RelativePath": "css/transactions.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\transactions.css"
     },
     {
       "Identity": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker\\wwwroot\\favicon.png",

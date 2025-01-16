@@ -30,41 +30,49 @@
     <AppXManifest Include="C:\Users\aryas\Desktop\Year3\App Dev\ExpenseTracker\ExpenseTracker\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2025-01-12T02:47:49.974</Modified>
+      <Modified>2025-01-16T18:02:19.686</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\aryas\Desktop\Year3\App Dev\ExpenseTracker\ExpenseTracker\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2025-01-02T09:10:35.758</Modified>
+      <Modified>2025-01-16T06:03:55.574</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\aryas\Desktop\Year3\App Dev\ExpenseTracker\ExpenseTracker\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\ExpenseTracker.runtimeconfig.json">
       <PackagePath>ExpenseTracker.runtimeconfig.json</PackagePath>
-      <Modified>2025-01-04T11:02:56.010</Modified>
+      <Modified>2025-01-15T16:50:51.609</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\aryas\Desktop\Year3\App Dev\ExpenseTracker\ExpenseTracker\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\ExpenseTracker.dll">
       <PackagePath>ExpenseTracker.dll</PackagePath>
-      <Modified>2025-01-12T02:47:47.771</Modified>
+      <Modified>2025-01-16T18:02:19.065</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\aryas\Desktop\Year3\App Dev\ExpenseTracker\ExpenseTracker\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\apphost.exe">
       <PackagePath>ExpenseTracker.exe</PackagePath>
-      <Modified>2025-01-12T02:47:47.993</Modified>
+      <Modified>2025-01-16T18:02:19.075</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\aryas\Desktop\Year3\App Dev\ExpenseTracker\ExpenseTracker\Resources\Raw\AboutAssets.txt">
       <PackagePath>AboutAssets.txt</PackagePath>
       <Modified>2025-01-02T08:35:23.067</Modified>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\aryas\Desktop\Year3\App Dev\ExpenseTracker\ExpenseTracker\wwwroot\css\addTransactions.css">
+      <PackagePath>wwwroot\css\addTransactions.css</PackagePath>
+      <Modified>2025-01-16T06:01:42.808</Modified>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\aryas\Desktop\Year3\App Dev\ExpenseTracker\ExpenseTracker\wwwroot\css\app.css">
       <PackagePath>wwwroot\css\app.css</PackagePath>
-      <Modified>2025-01-02T08:35:24.299</Modified>
+      <Modified>2025-01-16T03:37:02.597</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\aryas\Desktop\Year3\App Dev\ExpenseTracker\ExpenseTracker\wwwroot\css\bootstrap\bootstrap.min.css">
-      <PackagePath>wwwroot\css\bootstrap\bootstrap.min.css</PackagePath>
-      <Modified>2025-01-02T08:35:24.302</Modified>
+    <AppxPackagedFile Include="C:\Users\aryas\Desktop\Year3\App Dev\ExpenseTracker\ExpenseTracker\wwwroot\css\dashboard.css">
+      <PackagePath>wwwroot\css\dashboard.css</PackagePath>
+      <Modified>2025-01-16T17:59:17.816</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\aryas\Desktop\Year3\App Dev\ExpenseTracker\ExpenseTracker\wwwroot\css\bootstrap\bootstrap.min.css.map">
-      <PackagePath>wwwroot\css\bootstrap\bootstrap.min.css.map</PackagePath>
-      <Modified>2025-01-02T08:35:24.303</Modified>
+    <AppxPackagedFile Include="C:\Users\aryas\Desktop\Year3\App Dev\ExpenseTracker\ExpenseTracker\wwwroot\css\login.css">
+      <PackagePath>wwwroot\css\login.css</PackagePath>
+      <Modified>2025-01-16T06:00:15.590</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\aryas\Desktop\Year3\App Dev\ExpenseTracker\ExpenseTracker\wwwroot\css\transactions.css">
+      <PackagePath>wwwroot\css\transactions.css</PackagePath>
+      <Modified>2025-01-16T17:27:44.180</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\aryas\Desktop\Year3\App Dev\ExpenseTracker\ExpenseTracker\wwwroot\favicon.png">
       <PackagePath>wwwroot\favicon.png</PackagePath>
@@ -304,7 +312,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\aryas\Desktop\Year3\App Dev\ExpenseTracker\ExpenseTracker\bin\Debug\net8.0-windows10.0.19041.0\win10-x64\ExpenseTracker.deps.json">
       <PackagePath>ExpenseTracker.deps.json</PackagePath>
-      <Modified>2025-01-04T11:02:55.878</Modified>
+      <Modified>2025-01-15T16:50:51.286</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\microsoft.windows.sdk.net.ref\10.0.19041.34\lib\net6.0\Microsoft.Windows.SDK.NET.dll">
       <PackagePath>Microsoft.Windows.SDK.NET.dll</PackagePath>
@@ -314,21 +322,21 @@
       <PackagePath>WinRT.Runtime.dll</PackagePath>
       <Modified>2024-07-08T09:23:38.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\microsoft.aspnetcore.authorization\8.0.0\lib\net8.0\Microsoft.AspNetCore.Authorization.dll">
+    <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\microsoft.aspnetcore.authorization\8.0.8\lib\net8.0\Microsoft.AspNetCore.Authorization.dll">
       <PackagePath>Microsoft.AspNetCore.Authorization.dll</PackagePath>
-      <Modified>2023-11-01T01:07:34.000</Modified>
+      <Modified>2024-07-19T22:51:24.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\microsoft.aspnetcore.components\8.0.0\lib\net8.0\Microsoft.AspNetCore.Components.dll">
+    <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\microsoft.aspnetcore.components\8.0.8\lib\net8.0\Microsoft.AspNetCore.Components.dll">
       <PackagePath>Microsoft.AspNetCore.Components.dll</PackagePath>
-      <Modified>2023-11-01T01:06:30.000</Modified>
+      <Modified>2024-07-19T22:49:54.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\microsoft.aspnetcore.components.forms\8.0.0\lib\net8.0\Microsoft.AspNetCore.Components.Forms.dll">
+    <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\microsoft.aspnetcore.components.forms\8.0.8\lib\net8.0\Microsoft.AspNetCore.Components.Forms.dll">
       <PackagePath>Microsoft.AspNetCore.Components.Forms.dll</PackagePath>
-      <Modified>2023-11-01T01:06:32.000</Modified>
+      <Modified>2024-07-19T22:50:44.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\microsoft.aspnetcore.components.web\8.0.0\lib\net8.0\Microsoft.AspNetCore.Components.Web.dll">
+    <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\microsoft.aspnetcore.components.web\8.0.8\lib\net8.0\Microsoft.AspNetCore.Components.Web.dll">
       <PackagePath>Microsoft.AspNetCore.Components.Web.dll</PackagePath>
-      <Modified>2023-11-01T01:07:28.000</Modified>
+      <Modified>2024-07-19T22:51:10.000</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\microsoft.aspnetcore.components.webview\8.0.0\lib\net8.0\Microsoft.AspNetCore.Components.WebView.dll">
       <PackagePath>Microsoft.AspNetCore.Components.WebView.dll</PackagePath>
@@ -338,9 +346,9 @@
       <PackagePath>Microsoft.AspNetCore.Components.WebView.Maui.dll</PackagePath>
       <Modified>2024-08-26T17:45:46.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\microsoft.aspnetcore.metadata\8.0.0\lib\net8.0\Microsoft.AspNetCore.Metadata.dll">
+    <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\microsoft.aspnetcore.metadata\8.0.8\lib\net8.0\Microsoft.AspNetCore.Metadata.dll">
       <PackagePath>Microsoft.AspNetCore.Metadata.dll</PackagePath>
-      <Modified>2023-11-01T01:06:44.000</Modified>
+      <Modified>2024-07-19T22:49:58.000</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\microsoft.extensions.configuration\8.0.0\lib\net8.0\Microsoft.Extensions.Configuration.dll">
       <PackagePath>Microsoft.Extensions.Configuration.dll</PackagePath>
@@ -366,9 +374,9 @@
       <PackagePath>Microsoft.Extensions.DependencyInjection.dll</PackagePath>
       <Modified>2023-10-31T14:59:00.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\microsoft.extensions.dependencyinjection.abstractions\8.0.0\lib\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll">
+    <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\microsoft.extensions.dependencyinjection.abstractions\8.0.1\lib\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll">
       <PackagePath>Microsoft.Extensions.DependencyInjection.Abstractions.dll</PackagePath>
-      <Modified>2023-10-31T14:58:56.000</Modified>
+      <Modified>2024-02-14T23:51:40.000</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\microsoft.extensions.fileproviders.abstractions\8.0.0\lib\net8.0\Microsoft.Extensions.FileProviders.Abstractions.dll">
       <PackagePath>Microsoft.Extensions.FileProviders.Abstractions.dll</PackagePath>
@@ -390,21 +398,29 @@
       <PackagePath>Microsoft.Extensions.FileSystemGlobbing.dll</PackagePath>
       <Modified>2023-10-31T14:58:56.000</Modified>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\microsoft.extensions.localization\8.0.8\lib\net8.0\Microsoft.Extensions.Localization.dll">
+      <PackagePath>Microsoft.Extensions.Localization.dll</PackagePath>
+      <Modified>2024-07-19T22:51:58.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\microsoft.extensions.localization.abstractions\8.0.8\lib\net8.0\Microsoft.Extensions.Localization.Abstractions.dll">
+      <PackagePath>Microsoft.Extensions.Localization.Abstractions.dll</PackagePath>
+      <Modified>2024-07-19T22:51:06.000</Modified>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\microsoft.extensions.logging\8.0.0\lib\net8.0\Microsoft.Extensions.Logging.dll">
       <PackagePath>Microsoft.Extensions.Logging.dll</PackagePath>
       <Modified>2023-10-31T14:59:24.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\microsoft.extensions.logging.abstractions\8.0.0\lib\net8.0\Microsoft.Extensions.Logging.Abstractions.dll">
+    <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\microsoft.extensions.logging.abstractions\8.0.1\lib\net8.0\Microsoft.Extensions.Logging.Abstractions.dll">
       <PackagePath>Microsoft.Extensions.Logging.Abstractions.dll</PackagePath>
-      <Modified>2023-10-31T14:59:12.000</Modified>
+      <Modified>2024-02-14T23:51:52.000</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\microsoft.extensions.logging.debug\8.0.0\lib\net8.0\Microsoft.Extensions.Logging.Debug.dll">
       <PackagePath>Microsoft.Extensions.Logging.Debug.dll</PackagePath>
       <Modified>2023-10-31T14:59:30.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\microsoft.extensions.options\8.0.0\lib\net8.0\Microsoft.Extensions.Options.dll">
+    <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\microsoft.extensions.options\8.0.2\lib\net8.0\Microsoft.Extensions.Options.dll">
       <PackagePath>Microsoft.Extensions.Options.dll</PackagePath>
-      <Modified>2023-10-31T14:59:06.000</Modified>
+      <Modified>2024-01-18T03:05:26.000</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\microsoft.extensions.primitives\8.0.0\lib\net8.0\Microsoft.Extensions.Primitives.dll">
       <PackagePath>Microsoft.Extensions.Primitives.dll</PackagePath>
@@ -418,9 +434,9 @@
       <PackagePath>Microsoft.IO.RecyclableMemoryStream.dll</PackagePath>
       <Modified>2024-06-11T20:23:56.000</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\microsoft.jsinterop\8.0.0\lib\net8.0\Microsoft.JSInterop.dll">
+    <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\microsoft.jsinterop\8.0.8\lib\net8.0\Microsoft.JSInterop.dll">
       <PackagePath>Microsoft.JSInterop.dll</PackagePath>
-      <Modified>2023-11-01T01:06:36.000</Modified>
+      <Modified>2024-07-19T22:50:54.000</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\microsoft.maui.controls.compatibility\8.0.82\lib\net8.0-windows10.0.19041\Microsoft.Maui.Controls.Compatibility.dll">
       <PackagePath>Microsoft.Maui.Controls.Compatibility.dll</PackagePath>
@@ -509,6 +525,10 @@
     <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\microsoft.windowsappsdk\1.5.240627000\lib\net6.0-windows10.0.18362.0\Microsoft.WindowsAppRuntime.Bootstrap.Net.dll">
       <PackagePath>Microsoft.WindowsAppRuntime.Bootstrap.Net.dll</PackagePath>
       <Modified>2024-06-26T19:15:16.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\mudblazor\7.15.0\lib\net8.0\MudBlazor.dll">
+      <PackagePath>MudBlazor.dll</PackagePath>
+      <Modified>2024-10-29T20:30:44.000</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\system.io.pipelines\8.0.0\lib\net8.0\System.IO.Pipelines.dll">
       <PackagePath>System.IO.Pipelines.dll</PackagePath>
@@ -669,6 +689,14 @@
     <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\microsoft.maui.core\8.0.82\lib\net8.0-windows10.0.19041\Microsoft.Maui.pri">
       <PackagePath>Microsoft.Maui.pri</PackagePath>
       <Modified>2024-08-26T17:04:06.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\mudblazor\7.15.0\staticwebassets\MudBlazor.min.css">
+      <PackagePath>wwwroot\_content\MudBlazor\MudBlazor.min.css</PackagePath>
+      <Modified>2024-10-29T20:30:12.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\aryas\.nuget\packages\mudblazor\7.15.0\staticwebassets\MudBlazor.min.js">
+      <PackagePath>wwwroot\_content\MudBlazor\MudBlazor.min.js</PackagePath>
+      <Modified>2024-10-29T20:30:12.000</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\aryas\Desktop\Year3\App Dev\ExpenseTracker\ExpenseTracker\obj\Debug\net8.0-windows10.0.19041.0\win10-x64\scopedcss\bundle\ExpenseTracker.styles.css">
       <PackagePath>wwwroot\ExpenseTracker.styles.css</PackagePath>

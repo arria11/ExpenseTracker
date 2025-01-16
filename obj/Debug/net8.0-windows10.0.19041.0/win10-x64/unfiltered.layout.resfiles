@@ -1,3 +1,5 @@
+wwwroot\_content\MudBlazor\MudBlazor.min.css
+wwwroot\_content\MudBlazor\MudBlazor.min.js
 Components\Layout\MainLayout.razor.css
 Components\Layout\NavMenu.razor.css
 OpenSans-Regular.ttf
@@ -60,8 +62,10 @@ splashSplashScreen.scale-400.png
 wwwroot\ExpenseTracker.styles.css
 wwwroot\ExpenseTracker.bundle.scp.css
 AboutAssets.txt
+wwwroot\css\addTransactions.css
 wwwroot\css\app.css
-wwwroot\css\bootstrap\bootstrap.min.css
-wwwroot\css\bootstrap\bootstrap.min.css.map
+wwwroot\css\dashboard.css
+wwwroot\css\login.css
+wwwroot\css\transactions.css
 wwwroot\favicon.png
 wwwroot\index.html

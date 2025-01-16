@@ -5,16 +5,24 @@
       "PackagePath": "staticwebassets\\ExpenseTracker.styles.css"
     },
     {
+      "Id": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker\\wwwroot\\css\\addTransactions.css",
+      "PackagePath": "staticwebassets\\css\\addTransactions.css"
+    },
+    {
       "Id": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker\\wwwroot\\css\\app.css",
       "PackagePath": "staticwebassets\\css\\app.css"
     },
     {
-      "Id": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
-      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css"
+      "Id": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker\\wwwroot\\css\\dashboard.css",
+      "PackagePath": "staticwebassets\\css\\dashboard.css"
     },
     {
-      "Id": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
-      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css.map"
+      "Id": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker\\wwwroot\\css\\login.css",
+      "PackagePath": "staticwebassets\\css\\login.css"
+    },
+    {
+      "Id": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker\\wwwroot\\css\\transactions.css",
+      "PackagePath": "staticwebassets\\css\\transactions.css"
     },
     {
       "Id": "C:\\Users\\aryas\\Desktop\\Year3\\App Dev\\ExpenseTracker\\ExpenseTracker\\wwwroot\\favicon.png",
