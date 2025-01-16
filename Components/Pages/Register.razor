@@ -37,7 +37,7 @@
                     {
                         <option value="@currency">@currency</option>
                     }
-                </select>
+                </select>   
             </div>
             <button class="form-group" type="button" @onclick="AddNewUser">Add User</button>
             <div class="signin-link">
@@ -52,7 +52,10 @@
 </div>
 
 @code {
-    private User newUser = new User(); //object created for User Class
+    private User newUser = new User
+        {
+            Currency = "USD" // Set USD as the default currency
+        }; //object created for User Class
     private string errorMessage;
 
     private List<string> availableCurrencies = new List<string>
@@ -70,24 +73,30 @@
     {
         try
         {
+            if (string.IsNullOrEmpty(newUser.Currency))
+            {
+                newUser.Currency = "USD"; // Default to USD if no selection is made
+            }
+
             var existingUsers = await userService.LoadUserAsync();
-            // condition check to see if the user already exists
             if (existingUsers.Any(user => user.UserName == newUser.UserName))
             {
                 errorMessage = "A user with this User Name already exists. Please use a different User Name.";
-                return; 
+                return;
             }
 
             await userService.SaveUserAsync(newUser);
-            // New user object after saving.
-            newUser = new User();
-            errorMessage = null; 
+            newUser = new User
+                {
+                    Currency = "USD" // Reset to default after saving
+                };
+            errorMessage = null;
             navigationManager.NavigateTo("/");
         }
         catch (Exception ex)
         {
             errorMessage = $"An error occurred while adding the user: {ex.Message}";
-            Console.WriteLine(errorMessage); // for debugging purpose
+            Console.WriteLine(errorMessage); // Debugging
         }
     }
 }
