@@ -4,132 +4,47 @@
 @inject IUserService userService
 @inject NavigationManager navigationManager
 
-<style>
-    body {
-        margin: 0;
-        padding: 0;
-    }
-
-    .title {
-        width: 100%;
-        color: #30718A;
-        text-align: center;
-        margin: 0;
-        padding: 10px;
-    }
-
-    .register-container {
-        width: 90%;
-        max-width: 400px;
-        margin: 50px auto;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        background-color: #f9f9f9;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        font-family: Arial, sans-serif;
-    }
-
-    h3 {
-        color: #30718A;
-        text-align: center;
-        margin-bottom: 20px;
-    }
-
-    form {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    label {
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
-
-    input[type="text"],
-    input[type="password"],
-    input[type="email"],
-    select {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        font-size: 14px;
-    }
-
-    button {
-        background-color: #30718A;
-        color: white;
-        padding: 10px;
-        border: none;
-        border-radius: 5px;
-        font-size: 16px;
-        cursor: pointer;
-        width: 100%;
-    }
-
-        button:hover {
-            background-color: #255C71;
-        }
-
-    .signin-link {
-        text-align: center;
-        margin-top: 10px;
-    }
-
-        .signin-link a {
-            color: #30718A;
-            text-decoration: none;
-        }
-
-            .signin-link a:hover {
-                text-decoration: underline;
-            }
-
-    .error-message {
-        color: deeppink;
-        text-align: center;
-        margin-top: 10px;
-    }
-</style>
+<head>
+    <link href="css/register.css" rel="stylesheet" />
+</head>
 
 <h3 class="title">Expense Tracker App</h3>
 
-<div class="register-container">
-    <form>
-        <div>
-            <label>User Name:</label>
-            <input type="text" @bind="newUser.UserName" />
-        </div>
-        <div>
-            <label>Password:</label>
-            <input type="password" @bind="newUser.Password" />
-        </div>
-        <div>
-            <label>Email:</label>
-            <input type="email" @bind="newUser.Email" />
-        </div>
-        <div>
-            <label>Name:</label>
-            <input type="text" @bind="newUser.Name" />
-        </div>
-        <div>
-            <label>Currency:</label>
-            <select @bind="newUser.Currency">
-                <option value="" disabled>Select a Currency</option>
-                @foreach (var currency in availableCurrencies)
-                {
-                    <option value="@currency">@currency</option>
-                }
-            </select>
-        </div>
-        <button type="button" @onclick="AddNewUser">Add User</button>
-        <div class="signin-link">
-            Have an account? <a href="/">Sign In</a>
-        </div>
-    </form>
-
+<div class="container">
+    <div class="form-wrapper">
+        <form>
+            <div class="form-group">
+                <label>User Name:</label>
+                <input type="text" @bind="newUser.UserName" />
+            </div>
+            <div class="form-group">
+                <label>Password:</label>
+                <input type="password" @bind="newUser.Password" />
+            </div>
+            <div class="form-group"> 
+                <label>Email:</label>
+                <input type="email" @bind="newUser.Email" />
+            </div>
+            <div class="form-group">
+                <label>Name:</label>
+                <input type="text" @bind="newUser.Name" />
+            </div>
+            <div class="form-group">
+                <label>Currency:</label>
+                <select @bind="newUser.Currency">
+                    <option value="" disabled>Select a Currency</option>
+                    @foreach (var currency in availableCurrencies)
+                    {
+                        <option value="@currency">@currency</option>
+                    }
+                </select>
+            </div>
+            <button class="form-group" type="button" @onclick="AddNewUser">Add User</button>
+            <div class="signin-link">
+                Have an account? <a href="/">Sign In</a>
+            </div>
+        </form>
+    </div>
     @if (errorMessage != null)
     {
         <p class="error-message">@errorMessage</p>
